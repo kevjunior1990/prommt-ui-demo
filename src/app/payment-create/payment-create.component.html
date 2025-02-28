@@ -1,0 +1,17 @@
+<div>
+    <h2>Create New Payment</h2>
+
+    <!-- Form to create a new payment -->
+    <form (ngSubmit)="createPayment()">
+        <label>Email:</label>
+        <input type="email" [(ngModel)]="newPayment.email" name="email" required />
+
+        <label>Amount:</label>
+        <input type="number" [(ngModel)]="newPayment.amount" name="amount" required />
+
+        <label>Currency</label>
+        <input type="text" [(ngModel)]="newPayment.currency" name="currency" required />
+
+        <button type="submit">Create Payment</button>
+    </form>
+</div>

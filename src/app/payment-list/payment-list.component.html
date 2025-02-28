@@ -1,0 +1,28 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Email</th>
+        <th scope="col">Status</th>
+        <th scope="col">Currency</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Update Status</th>
+        <th scope="col">Delete Payment</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let payment of payments">
+        <td>{{ payment.id }}</td>
+        <td><a href="mailto:{{ payment.email }}">{{ payment.email }}</a></td>
+        <td>{{ payment.status }}</td>
+        <td>{{ payment.currency }}</td>
+        <td>{{ payment.amount }}</td>
+        <td> <button *ngIf="isPaymentPending(payment.status) && payment.id" (click)="updatePayment(payment)">Update Status</button></td>
+        <td> <button *ngIf="isPaymentPending(payment.status) && payment.id" (click)="deletePayment(payment.id!)">Delete Payment</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
