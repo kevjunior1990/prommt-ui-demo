@@ -1,17 +1,56 @@
 <div>
-    <h2>Create New Payment</h2>
+  <h2>Create New Payment</h2>
 
-    <!-- Form to create a new payment -->
-    <form (ngSubmit)="createPayment()">
-        <label>Email:</label>
-        <input type="email" [(ngModel)]="newPayment.email" name="email" required />
+  <!-- Form to create a new payment -->
+  <form (ngSubmit)="createPayment()" #paymentForm="ngForm">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="newPayment.email"
+        name="email"
+        required
+        #email="ngModel"
+        class="form-control"
+        placeholder="Enter email" />
+    </div>
 
-        <label>Amount:</label>
-        <input type="number" [(ngModel)]="newPayment.amount" name="amount" required />
+    <div class="form-group">
+      <label for="amount">Amount:</label>
+      <input
+        type="number"
+        id="amount"
+        [(ngModel)]="newPayment.amount"
+        name="amount"
+        required
+        min="0.01"
+        #amount="ngModel"
+        class="form-control"
+        placeholder="Enter amount" />
+    </div>
 
-        <label>Currency</label>
-        <input type="text" [(ngModel)]="newPayment.currency" name="currency" required />
+    <div class="form-group">
+      <label for="currency">Currency:</label>
+      <input
+        type="text"
+        id="currency"
+        [(ngModel)]="newPayment.currency"
+        name="currency"
+        required
+        #currency="ngModel"
+        class="form-control"
+        placeholder="Enter currency" />
+      <div *ngIf="currency.invalid && currency.touched" class="text-danger">
+        Currency is required.
+      </div>
+    </div>
 
-        <button type="submit">Create Payment</button>
-    </form>
+    <button
+      type="submit"
+      [disabled]="paymentForm.invalid"
+      class="btn btn-primary">
+      Create Payment
+    </button>
+  </form>
 </div>

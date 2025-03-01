@@ -1,0 +1,23 @@
+{
+  "TABLE": {
+    "HEADER": {
+      "ID": "#",
+      "EMAIL": "Email",
+      "STATUS": "Status",
+      "CURRENCY": "Currency",
+      "AMOUNT": "Amount",
+      "ACTIONS": "Actions"
+    },
+    "LABEL": {
+      "ID": "Payment ID",
+      "EMAIL": "Email",
+      "STATUS": "Status",
+      "CURRENCY": "Currency",
+      "AMOUNT": "Amount"
+    },
+    "BUTTON": {
+      "UPDATE": "Update",
+      "DELETE": "Delete"
+    }
+  }
+}

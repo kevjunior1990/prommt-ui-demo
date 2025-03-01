@@ -3,16 +3,20 @@ import { Payment } from '../payment';
 import { PaymentService } from '../payment.service';
 import { NgFor, NgIf } from '@angular/common';
 import { PaymentStatus } from '../payment-status';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-payment-list',
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, FormsModule],
   templateUrl: './payment-list.component.html',
   styleUrl: './payment-list.component.css'
 })
 export class PaymentListComponent implements OnInit{
   payments: Payment[] = [];
   selectedPayment: Payment | null = null;
+
+  selectedUpdatePayment: boolean = false;
+  selectedDeletePayment: boolean = false;
 
   constructor(private paymentService: PaymentService) {}
 
@@ -39,6 +43,12 @@ export class PaymentListComponent implements OnInit{
     return PaymentStatus.PENDING === status;
   }
 
+  confirmUpdate(payment: Payment): void {
+    if (confirm("Are you sure you want to complete this payment?")) {
+      this.updatePayment(payment);
+    }
+  }
+
   // Update an existing payment
   updatePayment(payment: Payment): void {
     if (payment) {
@@ -53,6 +63,12 @@ export class PaymentListComponent implements OnInit{
           console.error('Error updating payment', error);
         }
       );
+    }
+  }
+
+  confirmDelete(id: number): void {
+    if (confirm("Are you sure you want to delete this payment?")) {
+      this.deletePayment(id);
     }
   }
 
