@@ -26,11 +26,12 @@
     <div class="form-group">
       <label for="amount">Amount:</label>
       <input
-        type="number"
+        type="text"
         id="amount"
         [(ngModel)]="newPayment.amount"
         name="amount"
         required
+        pattern="^(0(\.\d{1,2})?|[1-9]\d*(\.\d{1,2})?)$"
         #amount="ngModel"
         class="form-control"
         placeholder="Enter amount"
@@ -38,7 +39,9 @@
 
       <div *ngIf="amount.invalid && amount.touched" class="text-danger">
         <small *ngIf="amount.errors?.['required']">Amount is required.</small>
-        <small *ngIf="amount.errors?.['min']">Amount must be at least 0.01.</small>
+        <small *ngIf="amount.errors?.['pattern']">
+          Amount must be a valid number and cannot start with 0 unless it's "0.x".
+        </small>
       </div>
     </div>
 
