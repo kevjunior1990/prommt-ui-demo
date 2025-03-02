@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Payment } from '../../model/payment';
 import { PaymentService } from '../../service/payment.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
@@ -21,16 +21,17 @@ import { Subscription } from 'rxjs';
   templateUrl: './payment-list.component.html',
   styleUrl: './payment-list.component.css'
 })
-export class PaymentListComponent implements OnInit {
+export class PaymentListComponent implements OnInit, OnDestroy {
   payments: Payment[] = [];
 
   currentPage = 1;
   itemsPerPage = 10;
   order: string = 'id';
   reverse: boolean = false;
-  isLoading: boolean = true;  // Track loading state
-  subscription!: Subscription; // Handle subscription cleanup
-
+  isLoading: boolean = true;
+  private loadPaymentsSubscription!: Subscription;
+  private updatePaymentSubscription!: Subscription;
+  private deletePaymentSubscription!: Subscription;
 
   constructor(private paymentService: PaymentService) {
   }
@@ -43,7 +44,7 @@ export class PaymentListComponent implements OnInit {
   loadPayments(): void {
 
     this.isLoading = true;  // Show loading bar
-    this.subscription = this.paymentService.getPayments().subscribe(
+    this.loadPaymentsSubscription = this.paymentService.getPayments().subscribe(
       (data) => {
 
         this.payments = data;
@@ -73,12 +74,14 @@ export class PaymentListComponent implements OnInit {
     if (payment) {
       payment.status = PaymentStatus.COMPLETED;
 
-      this.paymentService.updatePayment(payment.id!, payment).subscribe(
+      this.updatePaymentSubscription = this.paymentService.updatePayment(payment.id!, payment).subscribe(
         (data) => {
+
           console.log('Payment updated', data);
           this.loadPayments();  // Refresh payment list
         },
         (error) => {
+
           console.error('Error updating payment', error);
         }
       );
@@ -93,7 +96,7 @@ export class PaymentListComponent implements OnInit {
 
   // Delete payment
   deletePayment(id: number): void {
-    this.paymentService.deletePayment(id).subscribe(
+    this.deletePaymentSubscription = this.deletePaymentSubscription = this.paymentService.deletePayment(id).subscribe(
       () => {
         console.log('Payment deleted');
         this.loadPayments();  // Reload the list after deletion
@@ -121,8 +124,17 @@ export class PaymentListComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+
+    if (this.loadPaymentsSubscription) {
+      this.loadPaymentsSubscription.unsubscribe();
+    }
+
+    if (this.updatePaymentSubscription) {
+      this.updatePaymentSubscription.unsubscribe();
+    }
+
+    if (this.deletePaymentSubscription) {
+      this.deletePaymentSubscription.unsubscribe();
     }
   }
 }
