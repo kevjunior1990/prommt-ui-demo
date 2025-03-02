@@ -1,0 +1,71 @@
+<div>
+  <h2>Create New Payment</h2>
+
+  <form #paymentForm="ngForm" (ngSubmit)="createPayment()">
+    <!-- Email Input -->
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="newPayment.email"
+        name="email"
+        required
+        email
+        #email="ngModel"
+        class="form-control"
+        placeholder="Enter email"/>
+
+      <div *ngIf="email.invalid && email.touched" class="text-danger">
+        <small *ngIf="email.errors?.['required']">Email is required.</small>
+        <small *ngIf="email.errors?.['email']">Enter a valid email address.</small>
+      </div>
+    </div>
+
+    <!-- Amount Input -->
+    <div class="form-group">
+      <label for="amount">Amount:</label>
+      <input
+        type="number"
+        id="amount"
+        [(ngModel)]="newPayment.amount"
+        name="amount"
+        required
+        #amount="ngModel"
+        class="form-control"
+        placeholder="Enter amount"
+      />
+
+      <div *ngIf="amount.invalid && amount.touched" class="text-danger">
+        <small *ngIf="amount.errors?.['required']">Amount is required.</small>
+        <small *ngIf="amount.errors?.['min']">Amount must be at least 0.01.</small>
+      </div>
+    </div>
+
+    <!-- Currency Input -->
+    <div class="form-group">
+      <label for="currency">Currency:</label>
+      <select
+        id="currency"
+        [(ngModel)]="newPayment.currency"
+        name="currency"
+        required
+        #currency="ngModel"
+        class="form-control">
+        <option *ngFor="let cur of ['USD', 'EUR', 'GBP', 'INR', 'JPY']" [value]="cur">{{ cur }}</option>
+      </select>
+
+      <div *ngIf="currency.invalid && currency.touched" class="text-danger">
+        <small>Currency is required.</small>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="btn btn-info"
+      [disabled]="paymentForm.invalid">
+      Create Payment
+    </button>
+  </form>
+</div>

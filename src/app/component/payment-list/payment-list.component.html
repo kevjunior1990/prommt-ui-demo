@@ -1,0 +1,55 @@
+<div class="card my-5">
+  <div class="card-body">
+    <div class="table-responsive overflow-auto">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th (click)="setOrder('id')">#
+            <span [ngClass]="getArrowClass('id')"></span>
+          </th>
+          <th (click)="setOrder('email')">Email
+            <span [ngClass]="getArrowClass('email')"></span>
+          </th>
+          <th (click)="setOrder('status')">Status
+            <span [ngClass]="getArrowClass('status')"></span>
+          </th>
+          <th (click)="setOrder('currency')">Currency
+            <span [ngClass]="getArrowClass('currency')"></span>
+          </th>
+          <th (click)="setOrder('amount')">Amount
+            <span [ngClass]="getArrowClass('amount')"></span>
+          </th>
+          <th>Complete Payment</th>
+          <th>Delete Payment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let payment of payments | orderBy: order: reverse | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+          <td>{{ payment.id }}</td>
+          <td><a href="mailto:{{ payment.email }}">{{ payment.email }}</a></td>
+          <td>{{ payment.status }}</td>
+          <td>{{ payment.currency }}</td>
+          <td>{{ payment.amount }}</td>
+          <td>
+            <button *ngIf="isPaymentPending(payment.status)"
+                    (click)="confirmUpdate(payment)"
+                    class="btn btn-info">
+              Complete Payment
+            </button>
+          </td>
+          <td>
+            <button *ngIf="isPaymentPending(payment.status)"
+                    (click)="confirmDelete(payment.id)"
+                    class="btn btn-danger">
+              Delete Payment
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination Controls -->
+      <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+    </div>
+  </div>
+</div>

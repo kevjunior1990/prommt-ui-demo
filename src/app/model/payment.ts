@@ -1,4 +1,4 @@
-import { PaymentStatus } from './payment-status'; // Assuming you have an enum for PaymentStatus
+import { PaymentStatus } from '../enum/payment-status'; // Assuming you have an enum for PaymentStatus
 
 export class Payment {
   id?: number;

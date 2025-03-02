@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
-import { PaymentListComponent } from './payment-list/payment-list.component';
+import { PaymentListComponent } from './component/payment-list/payment-list.component';
 import { NgModule } from '@angular/core';
-import { PaymentCreateComponent } from './payment-create/payment-create.component';
+import { PaymentCreateComponent } from './component/payment-create/payment-create.component';
 
 export const routes: Routes = [
   { path: 'payments', component: PaymentListComponent },

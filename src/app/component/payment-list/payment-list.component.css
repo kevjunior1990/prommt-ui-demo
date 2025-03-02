@@ -1,0 +1,23 @@
+th {
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+}
+
+.arrow {
+  display: inline-block;
+  margin-left: 5px;
+  color: #17a2b8;
+  font-size: 14px;
+  transition: transform 0.3s;
+}
+
+.arrow.up::after {
+  content: "▲";
+}
+
+.arrow.down::after {
+  content: "▼";
+}
