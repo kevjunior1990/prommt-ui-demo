@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Payment } from '../../model/payment';
 import { PaymentService } from '../../service/payment.service';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { CurrencyPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { PaymentStatus } from '../../enum/payment-status';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -16,14 +16,15 @@ import { Subscription } from 'rxjs';
     FormsModule,
     NgxPaginationModule,
     OrderModule,
-    NgClass
+    NgClass,
+    CurrencyPipe
   ],
   templateUrl: './payment-list.component.html',
   styleUrl: './payment-list.component.css'
 })
 export class PaymentListComponent implements OnInit, OnDestroy {
   payments: Payment[] = [];
-
+  emailFilter: string = '';
   currentPage = 1;
   itemsPerPage = 10;
   order: string = 'id';
@@ -104,6 +105,12 @@ export class PaymentListComponent implements OnInit, OnDestroy {
       (error) => {
         console.error('Error deleting payment', error);
       }
+    );
+  }
+
+  filteredPayments(): Payment[] {
+    return this.payments.filter(payment =>
+      payment.email.toLowerCase().includes(this.emailFilter.toLowerCase())
     );
   }
 

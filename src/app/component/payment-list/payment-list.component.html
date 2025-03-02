@@ -1,5 +1,14 @@
 <div class="card my-5">
   <div class="card-body">
+    <div class="mb-3">
+      <input
+        type="text"
+        [(ngModel)]="emailFilter"
+        class="form-control"
+        placeholder="Filter by email..."
+      />
+    </div>
+
     <div class="table-responsive overflow-auto">
       <table class="table table-bordered table-striped">
         <thead class="thead-dark">
@@ -13,9 +22,6 @@
           <th (click)="setOrder('status')">Status
             <span [ngClass]="getArrowClass('status')"></span>
           </th>
-          <th (click)="setOrder('currency')">Currency
-            <span [ngClass]="getArrowClass('currency')"></span>
-          </th>
           <th (click)="setOrder('amount')">Amount
             <span [ngClass]="getArrowClass('amount')"></span>
           </th>
@@ -24,12 +30,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let payment of payments | orderBy: order: reverse | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+        <tr *ngFor="let payment of filteredPayments() | orderBy: order: reverse | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
           <td>{{ payment.id }}</td>
           <td><a href="mailto:{{ payment.email }}">{{ payment.email }}</a></td>
           <td>{{ payment.status }}</td>
-          <td>{{ payment.currency }}</td>
-          <td>{{ payment.amount }}</td>
+          <td>{{ payment.amount | currency: payment.currency }}</td>
           <td>
             <button *ngIf="isPaymentPending(payment.status)"
                     (click)="confirmUpdate(payment)"
